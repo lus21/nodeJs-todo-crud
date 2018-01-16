@@ -37,7 +37,7 @@ app.post('/add', (req, res) => {
     if (errors) {
         req.session.errors = errors;
     } else {
-        const id = todos[todos.length - 1].id + 1;
+        const id = todos.length == 0 ? 1: todos[todos.length - 1].id + 1;
         todos.push({
             content: req.body.content,
             id: id,
