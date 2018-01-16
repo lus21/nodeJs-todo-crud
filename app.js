@@ -62,10 +62,9 @@ app.post('/edit/:id', (req, res) => {
         req.session.errors = errors;
         res.redirect('/edit/'+ req.params.id);
     } else {
-        const todo = todos.find((element) => {
+        const todoIndex = todos.findIndex((element) => {
             return element.id == req.params.id;
         });
-        todoIndex = todos.indexOf(todo);
         todos[todoIndex].content = req.body.content;
         req.session.successMsgs = [{msg : 'Successfully updated' }];
         res.redirect('/');
@@ -73,10 +72,9 @@ app.post('/edit/:id', (req, res) => {
 });
 
 app.post('/delete/:id', (req, res) => {
-    const todo = todos.find((element) => {
+    const todoIndex = todos.findIndex((element) => {
         return element.id == req.params.id;
     });
-    todoIndex = todos.indexOf(todo);
     todos.splice(todoIndex, 1);
     req.session.successMsgs = [{msg : 'Successfully deleted' }];
     res.redirect('/');
