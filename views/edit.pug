@@ -1,0 +1,12 @@
+extends layout
+block content
+    div
+        ul(style="color: red;")
+            for error in errors
+                li= error.msg
+        form(method="post", action="/edit/"+todo.id)
+            div
+                label(for="todo") Todo
+                input(type="text" name="content" id="todo" value=`${ todo.content }`)
+            div
+                button Edit

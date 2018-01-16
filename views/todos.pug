@@ -1,0 +1,32 @@
+extends layout
+block content
+    div
+        ul(style="color: red;")
+            for error in errors
+                li= error.msg
+        ul(style="color: green;")
+            for success in successMsgs
+                li= success.msg
+        form#addForm(method="post", action="/add")
+            div
+                label(for="todo") Todo
+                input(type="text" name="content" id="todo")
+            div
+                button#add Add
+
+    table
+        tr
+            th Content
+            th Id
+            th Edit
+            th Delete
+        each todo in todos
+            tr
+                td= todo.content
+                td= todo.id
+                td
+                    form(method="get", action="/edit/"+ todo.id )
+                        button Edit
+                td
+                    form(method="post", action="/delete/"+ todo.id)
+                        button Delete
