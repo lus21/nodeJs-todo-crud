@@ -7,7 +7,7 @@ block content
         ul(style="color: green;")
             for success in successMsgs
                 li= success.msg
-        form#addForm(method="post", action="/add")
+        form(method="post", action="/add")
             div
                 label(for="todo") Todo
                 input(type="text" name="content" id="todo")

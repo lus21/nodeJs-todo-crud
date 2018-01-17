@@ -15,6 +15,10 @@
     "express": "^4.16.2",
     "express-session": "^1.15.6",
     "express-validator": "3",
+    "lodash": "^4.17.4",
     "pug": "^2.0.0-rc.4"
+  },
+  "devDependencies": {
+    "dotenv": "^4.0.0"
   }
 }
