@@ -3,7 +3,6 @@ const _ = require('lodash');
 
 function getTodos(req, res){
     todoModel.find({}).then((todos) => {
-        console.log(todos);
         res.send({ todos:todos, errors: [], successMsgs: [] });
     })
     .catch((err) => res.json({ todos:[], errors: [{ msg: 'Something went wrong' }], successMsgs: [] }))
