@@ -11,7 +11,10 @@ function addTodoAction(req, res){
     req.checkBody('content').notEmpty().withMessage('Content is required');
     const errors = req.validationErrors();
     if (errors) {
-        res.json({ errors, successMsgs: [], todos})
+        todoModel.find({}).then((todos) => {
+            res.send({ todos:todos, errors: errors, successMsgs: [] });
+        })
+        .catch((err) => res.json({ todos:[], errors: [{ msg: 'Something went wrong' }], successMsgs: [] }))
     } else {
         const todo = new todoModel({ content: req.body.content });
         todo.save().then(() => {
@@ -26,7 +29,9 @@ function editTodoAction (req, res) {
     req.checkBody('content').notEmpty().withMessage('Content is required');
     const errors = req.validationErrors();
     if (errors) {
-        res.json({ errors, successMsgs: [], todos})
+        todoModel.find({}).then((todos) => {
+            res.send({ todos:todos, errors: errors, successMsgs: [] });
+        })
     } else {
         todoModel.findByIdAndUpdate(req.params.id, { $set: { content: req.body.content }}, { new: true }).then((err, todo) =>{
             return todoModel.find({}).then((todos) => {
