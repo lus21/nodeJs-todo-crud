@@ -6,7 +6,7 @@ function getTodos(req, res){
         console.log(todos);
         res.send({ todos:todos, errors: [], successMsgs: [] });
     })
-    .catch((err) => res.json({ todos:[], errors: JSON.stringify(err), successMsgs: [] }))
+    .catch((err) => res.json({ todos:[], errors: [{ msg: 'Something went wrong' }], successMsgs: [] }))
 }
 function addTodoAction(req, res){
     req.checkBody('content').notEmpty().withMessage('Content is required');
@@ -20,7 +20,7 @@ function addTodoAction(req, res){
                 res.json({ errors: [], successMsgs: [{ msg: 'Successfully added' }], todos })
             })
         })
-        .catch((err) => res.json({ todos:[], errors: JSON.stringify(err), successMsgs: [] }))
+        .catch((err) => res.json({ todos:[], errors: [{ msg: 'Something went wrong' }], successMsgs: [] }))
     }
 }
 function editTodoAction (req, res) {
@@ -34,7 +34,7 @@ function editTodoAction (req, res) {
                 res.json({ errors: [], successMsgs: [{ msg: 'Successfully updated' }], todos })
             });
         })
-        .catch((err) => res.json({ todos:[], errors: JSON.stringify(err), successMsgs: [] }))
+        .catch((err) => res.json({ todos:[], errors: [{ msg: 'Something went wrong' }], successMsgs: [] }))
     }
 }
 function deleteTodoAction (req, res) {
@@ -43,7 +43,7 @@ function deleteTodoAction (req, res) {
             res.json({ errors: [], successMsgs: [{ msg: 'Successfully deleted' }], todos })
         });
     })
-    .catch((err) => res.json({ todos:[], errors: JSON.stringify(err), successMsgs: [] }))
+    .catch((err) => res.json({ todos:[], errors: [{ msg: 'Something went wrong' }], successMsgs: [] }))
 }
 
 module.exports = {
