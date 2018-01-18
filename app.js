@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const initalizeRoutes = require('./routes');
 const dotdev =  require('dotenv');
+const mongoose = require('mongoose');
 
 const app = express();
 dotdev.config();
@@ -26,23 +27,10 @@ app.use(bodyParser.json())
 
 initalizeRoutes(app);
 
-
-// // 404 page
-// app.use(function(req, res, next){
-//     res.status(404);
-//
-//     res.format({
-//         html: function () {
-//             res.render('pages/404.pug', { url: req.url, title: "404 Page Not Found" })
-//         },
-//         json: function () {
-//             res.json({ error: 'Not found' })
-//         },
-//         default: function () {
-//             res.type('txt').send('Not found')
-//         }
-//     })
-// });
+const conn = mongoose.connect('mongodb://localhost:27017/todo').then(() => {
+    console.log('connected, mongoose')
+});
+mongoose.Promise = global.Promise;
 
 app.listen(process.env.PORT, () => {
     console.log(`Listening on port ${process.env.PORT}`)

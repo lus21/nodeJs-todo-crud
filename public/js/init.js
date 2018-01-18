@@ -14,14 +14,14 @@ function todosTable(todos) {
     todos.forEach((todo) => {
         rows += '<tr>' +
                     '<td>' + todo.content + '</td>' +
-                    '<td>' + todo.id + '</td>' +
+                    '<td>' + todo._id + '</td>' +
                     '<td>' +
-                        '<form method="get" action="/api/todos/'+ todo.id + '">' +
+                        '<form method="get" action="/api/todos/'+ todo._id + '">' +
                             '<button onclick="editTodo(this)" data-content="' + todo.content + '">Edit</button>'+
                         '</form>' +
                     '</td>' +
                     '<td>' +
-                        '<form method="post" action="/api/todos/'+ todo.id+ '">' +
+                        '<form method="post" action="/api/todos/'+ todo._id+ '">' +
                             '<button onclick="deleteTodo(this)" id="cancel">Delete</button>'+
                         '</form>' +
                     '</td>' +

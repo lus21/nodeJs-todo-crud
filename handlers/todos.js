@@ -1,53 +1,49 @@
+const todoModel = require('../models/todoModel');
 const _ = require('lodash');
 
-const todos = [
-    { id:1, content: 'some todo'}, // todo example
-    { id:2, content: 'some todo2'}, // todo example
-    { id:3, content: 'some todo3'}, // todo example
-    { id:4, content: 'some todo4'} // todo example
-];
 function getTodos(req, res){
-    const errors = Object.assign({}, req.session.errors);
-    const successMsgs = Object.assign({}, req.session.successMsgs);
-    req.session.errors = null;
-    req.session.successMsgs = null;
-    const errorsToSend =  _.isEmpty(errors) ? [] : errors;
-    const successMsgsToSend =  _.isEmpty(successMsgs) ? [] : successMsgs;
-    res.send({ todos, errors: errorsToSend, successMsgs: successMsgsToSend });
+    todoModel.find({}).then((todos) => {
+        console.log(todos);
+        res.send({ todos:todos, errors: [], successMsgs: [] });
+    })
+    .catch((err) => res.json({ todos:[], errors: JSON.stringify(err), successMsgs: [] }))
 }
-function addTodoAction(req, res, next){
+function addTodoAction(req, res){
     req.checkBody('content').notEmpty().withMessage('Content is required');
     const errors = req.validationErrors();
     if (errors) {
         res.json({ errors, successMsgs: [], todos})
     } else {
-        const id = todos.length == 0 ? 1: todos[todos.length - 1].id + 1;
-        todos.push({
-            content: req.body.content,
-            id: id,
-        });
-        res.json({ errors: [], successMsgs: [{ msg: 'Successfully added' }], todos })
+        const todo = new todoModel({ content: req.body.content });
+        todo.save().then(() => {
+            return todoModel.find({}).then((todos) => {
+                res.json({ errors: [], successMsgs: [{ msg: 'Successfully added' }], todos })
+            })
+        })
+        .catch((err) => res.json({ todos:[], errors: JSON.stringify(err), successMsgs: [] }))
     }
 }
-function editTodoAction (req, res, next) {
+function editTodoAction (req, res) {
     req.checkBody('content').notEmpty().withMessage('Content is required');
     const errors = req.validationErrors();
     if (errors) {
         res.json({ errors, successMsgs: [], todos})
     } else {
-        const todoIndex = todos.findIndex((element) => {
-            return element.id == req.params.id;
-        });
-        todos[todoIndex].content = req.body.content;
-        res.json({ errors: [], successMsgs: [{msg : 'Successfully updated' }], todos });
+        todoModel.findByIdAndUpdate(req.params.id, { $set: { content: req.body.content }}, { new: true }).then((err, todo) =>{
+            return todoModel.find({}).then((todos) => {
+                res.json({ errors: [], successMsgs: [{ msg: 'Successfully updated' }], todos })
+            });
+        })
+        .catch((err) => res.json({ todos:[], errors: JSON.stringify(err), successMsgs: [] }))
     }
 }
 function deleteTodoAction (req, res) {
-    const todoIndex = todos.findIndex((element) => {
-        return element.id == req.params.id;
-    });
-    todos.splice(todoIndex, 1);
-    res.json({ errors: [], successMsgs: [{msg : 'Successfully deleted' }], todos });
+    todoModel.remove({ _id: req.params.id }).then(() => {
+        return todoModel.find({}).then((todos) => {
+            res.json({ errors: [], successMsgs: [{ msg: 'Successfully deleted' }], todos })
+        });
+    })
+    .catch((err) => res.json({ todos:[], errors: JSON.stringify(err), successMsgs: [] }))
 }
 
 module.exports = {
