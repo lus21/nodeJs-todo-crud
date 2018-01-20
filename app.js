@@ -7,6 +7,7 @@ const session = require('express-session');
 const initalizeRoutes = require('./routes');
 const dotdev =  require('dotenv');
 const mongoose = require('mongoose');
+var cors = require('cors');
 
 const app = express();
 dotdev.config();
@@ -23,7 +24,9 @@ app.use(session({
     resave: false,
     saveUninitialized: true
 }));
-app.use(bodyParser.json())
+app.use(bodyParser.json());
+
+app.use(cors());
 
 initalizeRoutes(app);
 
