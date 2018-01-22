@@ -2,16 +2,14 @@
 
 API
 
-GET /api/todos/ get all todos
+GET /api/todos/ get all todos | returns [errors:[], successMsgs: [], todos: []]
 
-POST /api/todos/ adds new todo,needs body.content
+POST /api/todos/ adds new todo,needs body.content | returns [errors:[], successMsgs: [], todo: {} ]
 
-PUT /api/todos/:id updates existing todo, needs body.contnet
+PUT /api/todos/:id updates existing todo, needs body.contnet  | returns [errors:[], successMsgs: [], todo: {} ]
 
-DELETE /api/todos/:id deletes todo
+DELETE /api/todos/:id deletes todo  | returns [errors:[], successMsgs: [], todo: {} ]
 
-
-always returns [errors:[], successMsgs: [], todos: []]
 
 errors example` errors:[ { msg: 'Content is required' }];
 
