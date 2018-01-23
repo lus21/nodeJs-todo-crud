@@ -4,7 +4,7 @@ API
 
 GET /api/todos/ get all todos | returns [errors:[], successMsgs: [], todos: []]
 
-POST /api/todos/ adds new todo,needs body.content | returns [errors:[], successMsgs: [], todo: {} ]
+POST /api/todos/ adds new todo,needs body.content | returns [errors:[], successMsgs: [], todos: [todo] ]
 
 PUT /api/todos/:id updates existing todo, needs body.contnet  | returns [errors:[], successMsgs: [], todo: {} ]
 
